@@ -74,6 +74,7 @@ public class Processo {
             getListaDeEspera().remove(processo);
     }
 
+	
     private Processo encontrarCoordenador() {
         Processo coordenador = ControladorDeProcessos.getCoordenador();
 
