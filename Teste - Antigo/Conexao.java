@@ -1,16 +1,13 @@
 import java.io.BufferedReader;
-import java.io.DataInputStream;
+//import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
-/**
- * 
- * @author Alex Serodio Goncalves e Luma Kuhl
- *
- */
 public class Conexao {
 
     private boolean conectado = true;
@@ -20,6 +17,18 @@ public class Conexao {
     private static final int TAMANHO_MENSAGEM = 20; // Tamanho fixo da mensagem
     private Socket sock;
     private ServerSocket listenSocket;
+	private BlockingQueue<String> filaPedidos;
+
+	public Conexao(BlockingQueue<String> filaPedidos2) {
+        this.filaPedidos = new LinkedBlockingQueue<>();
+    }
+
+	public Conexao(BlockingQueue<String> filaPedidos2) {
+    }
+
+    public BlockingQueue<String> getFilaPedidos() {
+        return filaPedidos;
+    }
 
     public void conectar(Processo coordenador) {
         System.out.println("Coordenador " + coordenador + " pronto para receber requisicoes.");
@@ -79,7 +88,7 @@ public class Conexao {
             BufferedReader rec = new BufferedReader(s);
 
             // Crie um DataInputStream para ler mensagens recebidas do servidor
-            DataInputStream dis = new DataInputStream(sock.getInputStream());
+            //DataInputStream dis = new DataInputStream(sock.getInputStream());
             // Le os dados enviados pela aplicacao servidora
             char[] buffer = new char[TAMANHO_MENSAGEM];
             rec.read(buffer);

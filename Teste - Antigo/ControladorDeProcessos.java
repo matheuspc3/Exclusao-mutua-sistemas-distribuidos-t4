@@ -1,11 +1,6 @@
 import java.util.ArrayList;
-import java.util.Random;
+//import java.util.Random;
 
-/**
- * 
- * @author Alex Serodio Goncalves e Luma Kuhl
- *
- */
 public class ControladorDeProcessos {
 
 	private static ArrayList<Processo> processosAtivos = new ArrayList<Processo>();

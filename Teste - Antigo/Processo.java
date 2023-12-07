@@ -9,6 +9,7 @@ public class Processo {
     private boolean ehCoordenador = false;
     private Thread utilizaRecurso = new Thread();
     private Conexao conexao = new Conexao();
+	
 
     // variáveis utilizadas apenas pelo coordenador
     private LinkedList<Processo> listaDeEspera;
@@ -19,10 +20,14 @@ public class Processo {
 
     public Processo(int pid) {
         this.pid = pid;
+		this.conexao = conexao;
         setEhCoordenador(false);
     }
 
-    public int getPid() {
+    public Processo(int gerarIdUnico, Conexao conexao2) {
+	}
+
+	public int getPid() {
         return pid;
     }
 
@@ -84,19 +89,17 @@ public class Processo {
         }
         return coordenador;
     }
-
-    public void acessarRecursoCompartilhado() {
+	public void acessarRecursoCompartilhado() {
         if (ControladorDeProcessos.isUsandoRecurso(this) || this.isCoordenador())
             return;
 
-        String mensagem = criarMensagem();
-
+        String mensagem = "Processo " + this + " quer consumir o recurso.\n";
         String resultado = conexao.realizarRequisicao(mensagem);
 
         System.out.println("Resultado da requisicao do processo " + this + ": " + resultado);
 
         if (resultado.equals(Conexao.PERMITIR_ACESSO))
-            utilizarRecurso(this);
+            conexao.getFilaPedidos().offer(mensagem);
         else if (resultado.equals(Conexao.NEGAR_ACESSO))
             adicionarNaListaDeEspera(this);
     }
